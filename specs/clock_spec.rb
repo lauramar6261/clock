@@ -4,7 +4,7 @@
 
 require 'minitest/autorun' # run spec file and produce test results: pass or fail
 require 'minitest/reporters'# color
-require_relative 'clock'
+require_relative '../lib/clock'
 
 Minitest::Reporters.use!
 
@@ -93,6 +93,46 @@ describe 'Clock' do
     # Act - Assert
     expect {
       time = clock(hour, min, sec) # this method call generates error
+    }.must_raise ArgumentError
+  end
+
+  it 'will raise an error for invalid min' do
+    # arrange
+    hours = 0
+    min = 59
+    sec = 0
+
+    # act
+    time = clock(hours, min, sec)
+
+    expect(time).must_equal '00:59:00'
+
+    # re - Arrange
+    min = 61
+
+    # Act - Assert
+    expect {
+      time = clock(hours, min, sec) # this method call generates error
+    }.must_raise ArgumentError
+  end
+
+  it 'will raise an error for invalid sec' do
+    # arrange
+    hours = 0
+    min = 0
+    sec = 59
+
+    # act
+    time = clock(hours, min, sec)
+
+    expect(time).must_equal '00:00:59'
+
+    # re - Arrange
+    sec = 61
+
+    # Act - Assert
+    expect {
+      time = clock(hours, min, sec) # this method call generates error
     }.must_raise ArgumentError
   end
 
